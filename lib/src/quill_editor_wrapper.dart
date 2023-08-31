@@ -55,6 +55,7 @@ class QuillHtmlEditor extends StatefulWidget {
       color: Colors.black87,
       fontWeight: FontWeight.normal,
     ),
+    this.preserveWhitespace = false,
   }) : super(key: controller._editorKey);
 
   /// [text] to set initial text to the editor, please use text
@@ -153,6 +154,8 @@ class QuillHtmlEditor extends StatefulWidget {
   /// **Note** due to limitations of flutter webview at the moment, focus doesn't launch the keyboard in mobile, however, it will set the cursor at the end on focus.
   final bool? autoFocus;
 
+  final bool? preserveWhitespace;
+
   @override
   QuillHtmlEditorState createState() => QuillHtmlEditorState();
 }
@@ -176,6 +179,7 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
   late String _fontFamily;
   late String _encodedStyle;
   bool _editorLoaded = false;
+
   @override
   initState() {
     _loadScripts = rootBundle.loadString(
@@ -975,14 +979,15 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
                 toolbar: '#toolbar-container',
                 table: true,
                  keyboard:  ${widget.inputAction == InputAction.send ? '{bindings: bindings}' : '{}'},
-                history: {
+                 history: {
                   delay: 2000,
                   maxStack: 500,
                   userOnly: false
-                }
+                },
+                clipboard:  ${widget.preserveWhitespace ?? false ? '{ matchers: [[Node.TEXT_NODE, (node, delta) => {if(node.data.match(/[^\\n\\S]|\\t/) ) {const Delta = Quill.import(\'delta\'); return new Delta().insert(node.data);}return delta;}]]}' : '{}'},
               },
               theme: 'snow',
-             scrollingContainer: '#scrolling-container', 
+              scrollingContainer: '#scrolling-container', 
               placeholder: '${widget.hintText ?? "Description"}',
               clipboard: {
                 matchVisual: true
