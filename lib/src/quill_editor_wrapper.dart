@@ -163,7 +163,7 @@ class QuillHtmlEditor extends StatefulWidget {
 ///[QuillHtmlEditorState] editor state class to render the editor
 class QuillHtmlEditorState extends State<QuillHtmlEditor> {
   /// it is the controller used to access the functions of quill js library
-  late WebViewXController _webviewController;
+  WebViewXController? _webviewController;
 
   /// this variable is used to set the html code that renders the quill js library
   String _initialContent = "";
@@ -194,7 +194,7 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
 
   @override
   void dispose() {
-    _webviewController.dispose();
+    _webviewController?.dispose();
     super.dispose();
   }
 
@@ -435,82 +435,81 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
 
   /// a private method to get the Html text from the editor
   Future<String> _getHtmlFromEditor() async {
-    return await _webviewController.callJsMethod("getHtmlText", []);
+    return await _webviewController?.callJsMethod("getHtmlText", []);
   }
 
   /// a private method to get the Plain text from the editor
   Future<String> _getPlainTextFromEditor() async {
-    return await _webviewController.callJsMethod("getPlainText", []);
+    return await _webviewController?.callJsMethod("getPlainText", []);
   }
 
   /// a private method to get the delta  from the editor
   Future<String> _getDeltaFromEditor() async {
-    return await _webviewController.callJsMethod("getDelta", []);
+    return await _webviewController?.callJsMethod("getDelta", []);
   }
 
   /// a private method to check if editor has focus
   Future<int> _getSelectionCount() async {
-    return await _webviewController.callJsMethod("getSelection", []);
+    return await _webviewController?.callJsMethod("getSelection", []);
   }
 
   /// a private method to check if editor has focus
   Future<dynamic> _getSelectionRange() async {
-    return await _webviewController.callJsMethod("getSelectionRange", []);
+    return await _webviewController?.callJsMethod("getSelectionRange", []);
   }
 
   /// a private method to check if editor has focus
   Future<dynamic> _setSelectionRange(int index, int length) async {
     return await _webviewController
-        .callJsMethod("setSelection", [index, length]);
+        ?.callJsMethod("setSelection", [index, length]);
   }
 
   /// a private method to set the Html text to the editor
   Future _setHtmlTextToEditor({required String htmlText}) async {
-    return await _webviewController.callJsMethod("setHtmlText", [htmlText]);
+    return await _webviewController?.callJsMethod("setHtmlText", [htmlText]);
   }
 
   /// a private method to set the Delta  text to the editor
   Future _setDeltaToEditor({required Map<dynamic, dynamic> deltaMap}) async {
-    return await _webviewController
-        .callJsMethod("setDeltaContent", [jsonEncode(deltaMap)]);
+    return await _webviewController?.callJsMethod("setDeltaContent", [jsonEncode(deltaMap)]);
   }
 
   /// a private method to request focus to the editor
   Future _requestFocus() async {
-    return await _webviewController.callJsMethod("requestFocus", []);
+    return await _webviewController?.callJsMethod("requestFocus", []);
   }
 
   /// a private method to un focus the editor
   Future _unFocus() async {
-    return await _webviewController.callJsMethod("unFocus", []);
+    return await _webviewController?.callJsMethod("unFocus", []);
   }
 
   /// a private method to insert the Html text to the editor
   Future _insertHtmlTextToEditor({required String htmlText, int? index}) async {
     return await _webviewController
-        .callJsMethod("insertHtmlText", [htmlText, index]);
+        ?.callJsMethod("insertHtmlText", [htmlText, index]);
   }
 
   /// a private method to embed the video to the editor
   Future _embedVideo({required String videoUrl}) async {
-    return await _webviewController.callJsMethod("embedVideo", [videoUrl]);
+    return await _webviewController?.callJsMethod("embedVideo", [videoUrl]);
   }
 
   /// a private method to embed the image to the editor
   Future _embedImage({required String imgSrc}) async {
-    return await _webviewController.callJsMethod("embedImage", [imgSrc]);
+    return await _webviewController?.callJsMethod("embedImage", [imgSrc]);
   }
 
   /// a private method to enable/disable the editor
   Future _enableTextEditor({required bool isEnabled}) async {
-    return await _webviewController.callJsMethod("enableEditor", [isEnabled]);
+    return await _webviewController?.callJsMethod("enableEditor", [isEnabled]);
   }
 
   /// a private method to enable/disable the editor
   Future _setFormat({required String format, required dynamic value}) async {
     try {
       return await _webviewController
-          .callJsMethod("setFormat", [format, value]);
+          ?.callJsMethod("setFormat", [format, value]);
     } catch (e) {
       _printWrapper(false, e.toString());
     }
@@ -518,13 +517,13 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
 
   /// a private method to insert table by row and column to the editor
   Future _insertTableToEditor({required int row, required int column}) async {
-    return await _webviewController.callJsMethod("insertTable", [row, column]);
+    return await _webviewController?.callJsMethod("insertTable", [row, column]);
   }
 
   /// a private method to add remove or delete table in the editor
   Future _modifyTable(EditTableEnum type) async {
     return await _webviewController
-        .callJsMethod("modifyTable", [describeEnum(type)]);
+        ?.callJsMethod("modifyTable", [describeEnum(type)]);
   }
 
   /// a private method to replace selection text in the editor
@@ -532,32 +531,32 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
     String replaceText,
   ) async {
     return await _webviewController
-        .callJsMethod("replaceSelection", [replaceText]);
+        ?.callJsMethod("replaceSelection", [replaceText]);
   }
 
   /// a private method to get the selected text from editor
   Future _getSelectedText() async {
-    return await _webviewController.callJsMethod("getSelectedText", []);
+    return await _webviewController?.callJsMethod("getSelectedText", []);
   }
 
   /// a private method to get the selected html text from editor
   Future _getSelectedHtmlText() async {
-    return await _webviewController.callJsMethod("getSelectionHtml", []);
+    return await _webviewController?.callJsMethod("getSelectionHtml", []);
   }
 
   /// a private method to undo the history
   Future _undo() async {
-    return await _webviewController.callJsMethod("undo", []);
+    return await _webviewController?.callJsMethod("undo", []);
   }
 
   /// a private method to redo the history
   Future _redo() async {
-    return await _webviewController.callJsMethod("redo", []);
+    return await _webviewController?.callJsMethod("redo", []);
   }
 
   /// a private method to clear the history stack
   Future _clearHistory() async {
-    return await _webviewController.callJsMethod("clearHistory", []);
+    return await _webviewController?.callJsMethod("clearHistory", []);
   }
 
   /// This method generated the html code that is required to render the quill js editor
