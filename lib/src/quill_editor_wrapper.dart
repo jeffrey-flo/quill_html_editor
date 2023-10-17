@@ -56,6 +56,9 @@ class QuillHtmlEditor extends StatefulWidget {
       fontWeight: FontWeight.normal,
     ),
     this.preserveWhitespace = false,
+    this.customScriptTag,
+    this.customQuillRegister,
+    this.customModuleConfig,
   }) : super(key: controller._editorKey);
 
   /// [text] to set initial text to the editor, please use text
@@ -155,6 +158,78 @@ class QuillHtmlEditor extends StatefulWidget {
   final bool? autoFocus;
 
   final bool? preserveWhitespace;
+
+  /// # Use for custom libraries
+  /// <br>
+  /// [customScriptTag]<br>
+  /// [customQuillRegister]<br>
+  /// [customQuillRegister]<br>
+  /// <br>
+  /// [customScriptTag] to set custom script tag for custom libraries
+  ///
+  /// Ex:
+  /// For Quill Blot Formatter library https://github.com/Fandom-OSS/quill-blot-formatter
+  /// <br/>
+  /// `<script src="https://cdn.jsdelivr.net/npm/quill-blot-formatter@1.0.5/dist/quill-blot-formatter.min.js"></script>`
+  ///
+  /// Use in flutter like:
+  /// ```
+  /// customScriptTag: """
+  ///   <script src="https://cdn.jsdelivr.net/npm/quill-blot-formatter@1.0.5/dist/quill-blot-formatter.min.js"></script>
+  /// """
+  /// ```
+  /// You can use multiple libraries
+  ///
+  final String? customScriptTag;
+
+  /// # Use for custom libraries
+  /// <br>
+  /// [customScriptTag]<br>
+  /// [customQuillRegister]<br>
+  /// [customQuillRegister]<br>
+  /// <br>
+  /// [customQuillRegister] to resister custom libraries
+  ///
+  /// Ex:
+  /// For Quill Blot Formatter library https://github.com/Fandom-OSS/quill-blot-formatter
+  /// <br/>
+  /// `Quill.register('modules/blotFormatter', QuillBlotFormatter.default);`
+  ///
+  /// Use in flutter like:
+  /// ```
+  /// customQuillRegister: """
+  ///   Quill.register('modules/blotFormatter', QuillBlotFormatter.default);
+  /// """
+  /// ```
+  /// You can use multiple libraries
+  ///
+  final String? customQuillRegister;
+
+  /// # Use for custom libraries
+  /// <br>
+  /// [customScriptTag]<br>
+  /// [customQuillRegister]<br>
+  /// [customQuillRegister]<br>
+  /// <br>
+  /// [customQuillRegister] to config the custom module
+  ///
+  /// Ex:
+  /// For Quill Blot Formatter library https://github.com/Fandom-OSS/quill-blot-formatter
+  /// <br/>
+  /// ```
+  /// blotFormatter: {
+  ///  },
+  /// ```
+  /// Use in flutter like:
+  /// ```
+  /// customModuleConfig: """
+  ///   blotFormatter: {
+  ///   },
+  /// """
+  /// ```
+  /// You can use multiple libraries
+  ///
+  final String? customModuleConfig;
 
   @override
   QuillHtmlEditorState createState() => QuillHtmlEditorState();
@@ -418,17 +493,18 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
           ),
         ),
         Visibility(
-            visible: !_editorLoaded,
-            child: widget.loadingBuilder != null
-                ? widget.loadingBuilder!(context)
-                : SizedBox(
-                    height: widget.minHeight,
-                    child: const Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 0.3,
-                      ),
+          visible: !_editorLoaded,
+          child: widget.loadingBuilder != null
+              ? widget.loadingBuilder!(context)
+              : SizedBox(
+                  height: widget.minHeight,
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 0.3,
                     ),
-                  ))
+                  ),
+                ),
+        )
       ],
     );
   }
@@ -471,7 +547,8 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
 
   /// a private method to set the Delta  text to the editor
   Future _setDeltaToEditor({required Map<dynamic, dynamic> deltaMap}) async {
-    return await _webviewController?.callJsMethod("setDeltaContent", [jsonEncode(deltaMap)]);
+    return await _webviewController
+        ?.callJsMethod("setDeltaContent", [jsonEncode(deltaMap)]);
   }
 
   /// a private method to request focus to the editor
@@ -573,6 +650,9 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
         <script>
         $_quillJsScript
         </script>
+        </script>
+        ${widget.customScriptTag ?? ""}
+        <style>
         <style>
         /*!
        * Quill Editor v2.0.0-dev.3
@@ -972,7 +1052,7 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
                   static blotName = 'breaker';
               }
               Quill.register(Breaker);
-
+            ${widget.customQuillRegister ?? ""}
             var quilleditor = new Quill('#editor', {
               modules: {
                 toolbar: '#toolbar-container',
@@ -983,6 +1063,7 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
                   maxStack: 500,
                   userOnly: false
                 },
+                ${widget.customModuleConfig ?? ""}
                 clipboard:  ${widget.preserveWhitespace ?? false ? '{ matchers: [[Node.TEXT_NODE, (node, delta) => {if(node.data.match(/[^\\n\\S]|\\t/) ) {const Delta = Quill.import(\'delta\'); return new Delta().insert(node.data);}return delta;}]]}' : '{}'},
               },
               theme: 'snow',
