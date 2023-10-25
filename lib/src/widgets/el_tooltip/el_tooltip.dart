@@ -25,7 +25,7 @@ class ElTooltip extends StatefulWidget {
     this.distance = 10.0,
     this.padding = 2.0,
     this.position = ElTooltipPosition.topCenter,
-    this.radius = 8.0,
+    this.radius = 4.0,
     this.showModal = true,
     required this.onTap,
     this.enable = true,

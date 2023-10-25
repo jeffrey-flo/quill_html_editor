@@ -310,6 +310,7 @@ class ToolBar extends StatefulWidget {
         super(
           key: controller.toolBarKey,
         );
+
   @override
   State<ToolBar> createState() => ToolBarState();
 }
@@ -1069,8 +1070,9 @@ class ToolBarState extends State<ToolBar> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
             contentPadding: EdgeInsets.zero,
             content: WebViewAware(
               child: Builder(
@@ -1267,83 +1269,63 @@ enum ToolBarStyle {
   bold("Bold"),
 
   /// [italic] sets italic format
-
   italic("Italic"),
 
   /// [underline] sets underline to text
-
   underline("Underline"),
 
   /// [strike] makes the selected text strikethrough
-
   strike("Strikethrough"),
 
   /// [blockQuote] converts text to quote
-
   blockQuote("Block Quote"),
 
   /// [codeBlock] makes selected text code block
-
   codeBlock("Code Block"),
 
   /// [indentMinus] decreases the indent by given value
-
   indentMinus("Decrease the indent"),
 
   /// [indentAdd] increases the indent by given value
-
   indentAdd("Increase the indent"),
 
   /// [directionRtl] sets the direction of text from Right to Left
-
   directionRtl("Right to Left"),
 
   /// [directionLtr] sets the direction of text from Left to Right
-
   directionLtr("Left to Right"),
 
   /// [headerOne] makes the text H1
-
   headerOne("Header H1"),
 
   /// [headerTwo] makes the text H2
-
   headerTwo("Header H2"),
 
   /// [color] sets font color
-
   color("Font color"),
 
   /// [background] sets background color to text
-
   background("Background color"),
 
   /// [align] adds alignment to text, left, right, center, justify
-
   align("Alignment"),
 
   /// [listOrdered] adds numbered/alphabets list to the text
-
   listOrdered("Bullet numbers"),
 
   /// [listBullet] makes text as bullet points
-
   listBullet("Bullet points"),
 
   /// [size] sets fontSize of the text
-
   size("Font Size"),
 
   /// [link] sets hyperlink to selected text
-
   link("Hyperlink"),
 
   /// [image] embeds image to the editor
-
   image("Insert image"),
 
   /// [video] embeds Youtube, Vimeo or other network videos to editor
-
   video("Insert Youtube/Url"),
 
   /// [clean] clears all formats of editor, (for internal use case)
