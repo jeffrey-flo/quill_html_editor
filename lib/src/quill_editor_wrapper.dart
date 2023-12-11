@@ -499,7 +499,7 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
               : SizedBox(
                   height: widget.minHeight,
                   child: const Center(
-                    child: CircularProgressIndicator(
+                    child: CircularProgressIndicator.adaptive(
                       strokeWidth: 0.3,
                     ),
                   ),
