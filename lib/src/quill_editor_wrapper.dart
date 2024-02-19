@@ -316,6 +316,24 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
           height: _currentHeight,
           onPageStarted: (s) {
             _editorLoaded = false;
+            Future.delayed(const Duration(milliseconds: 100)).then((value) {
+              _editorLoaded = true;
+              debugPrint('_editorLoaded $_editorLoaded');
+              if (mounted) {
+                setState(() {});
+              }
+              widget.controller.enableEditor(isEnabled);
+              if (widget.text != null) {
+                _setHtmlTextToEditor(htmlText: widget.text!);
+              }
+              if (widget.autoFocus == true) {
+                widget.controller.focus();
+              }
+              if (widget.onEditorCreated != null) {
+                widget.onEditorCreated!();
+              }
+              widget.controller._editorLoadedController?.add('');
+            });
           },
           ignoreAllGestures: false,
           width: width,
