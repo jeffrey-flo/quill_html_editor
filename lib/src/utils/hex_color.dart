@@ -2,19 +2,25 @@ import 'package:flutter/material.dart';
 
 ////[HexColor] color utility class to convert hex to color
 class HexColor extends Color {
-  static int _getColorFromHex(String? hexColor) {
-    if (hexColor == null || !isValidHex(hexColor)) {
+  static int _getColorFromHex(dynamic hexColor) {
+    // Convert to string if not null, handle non-string types
+    String? hexString;
+    if (hexColor != null) {
+      hexString = hexColor.toString();
+    }
+
+    if (hexString == null || !isValidHex(hexString)) {
       return Colors.transparent.toARGB32();
     }
-    hexColor = hexColor.toUpperCase().replaceAll("#", "");
-    if (hexColor.length == 6) {
-      hexColor = "FF$hexColor";
+    hexString = hexString.toUpperCase().replaceAll("#", "");
+    if (hexString.length == 6) {
+      hexString = "FF$hexString";
     }
-    return int.parse(hexColor, radix: 16);
+    return int.parse(hexString, radix: 16);
   }
 
 ////[HexColor.fromHex] method to get color from hex code
-  HexColor.fromHex(final String? hexColor) : super(_getColorFromHex(hexColor));
+  HexColor.fromHex(final dynamic hexColor) : super(_getColorFromHex(hexColor));
 
   ////[isValidHex] method to check if the given hexCode is valid
   static bool isValidHex(String? hexCode) {
