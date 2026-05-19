@@ -18,8 +18,8 @@ class ImageSelector {
   ///[pickFiles] to pick the files
   Future<void> pickFiles() async {
     try {
-      FilePickerResult? result = await FilePicker.platform
-          .pickFiles(allowMultiple: false, type: _pickingType, withData: true);
+      FilePickerResult? result = await FilePicker.pickFiles(
+          allowMultiple: false, type: _pickingType, withData: true);
 
       if (result != null) {
         PlatformFile file = result.files.first;
